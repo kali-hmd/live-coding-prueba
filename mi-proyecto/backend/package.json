@@ -1,0 +1,15 @@
+{
+    "name": "private-notes-backend",
+    "version": "1.0.0",
+    "main": "app.py",
+    "scripts": {
+      "start": "python app.py"
+    },
+    "dependencies": {
+      "flask": "3.0.0",
+      "flask-cors": "4.0.0",
+      "pyjwt": "2.8.1",
+      "bcrypt": "4.1.2",
+      "python-dotenv": "1.0.0"
+    }
+  }
