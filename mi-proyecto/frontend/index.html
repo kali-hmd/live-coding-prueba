@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Private notes</title>
+  
+  <!-- Pico CSS for semantic styling -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Pages (hidden by default, shown via JS) -->
+
+  <!-- AUTH CONTAINER -->
+  <div id="authContainer" class="page hidden">
+    <div class="auth-wrapper">
+      <div class="auth-card">
+        <h1>Private notes</h1>
+        <p class="subtitle">Secure, personal, yours.</p>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+          <fieldset>
+            <legend>Log In</legend>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Password"
+              required
+            />
+            <button type="submit">Sign In</button>
+            <p class="toggle-auth">
+              Don't have an account? <a href="#" onclick="toggleAuthForm(event)">Register</a>
+            </p>
+          </fieldset>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="auth-form hidden">
+          <fieldset>
+            <legend>Create Account</legend>
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="Email"
+              required
+            />
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Password (min 6 characters)"
+              minlength="6"
+              required
+            />
+            <input
+              type="password"
+              id="registerConfirm"
+              placeholder="Confirm Password"
+              minlength="6"
+              required
+            />
+            <button type="submit">Create Account</button>
+            <p class="toggle-auth">
+              Already have an account? <a href="#" onclick="toggleAuthForm(event)">Log In</a>
+            </p>
+          </fieldset>
+        </form>
+
+        <div id="authError" class="error-message hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD CONTAINER -->
+  <div id="dashboardContainer" class="page hidden">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h2>Private Notes</h2>
+      </div>
+      <div class="nav-actions">
+        <button onclick="showNewNoteForm()" class="btn-primary">+ New Note</button>
+        <button onclick="logout()" class="btn-logout">Logout</button>
+      </div>
+    </nav>
+
+    <main class="dashboard">
+      <div class="notes-grid" id="notesGrid">
+        <!-- Notes will be inserted here -->
+      </div>
+      <div id="emptyState" class="empty-state">
+        <p>📝 No notes yet. Create your first note to get started.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- NOTE EDITOR CONTAINER -->
+  <div id="editorContainer" class="page hidden">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <a href="#" onclick="showDashboard(event)">← Back to Notes</a>
+      </div>
+      <div class="nav-actions">
+        <button id="saveBtn" onclick="saveNote()" class="btn-primary">Save Note</button>
+      </div>
+    </nav>
+
+    <main class="editor">
+      <form id="noteForm">
+        <fieldset>
+          <input
+            type="text"
+            id="noteTitle"
+            placeholder="Note Title"
+            maxlength="200"
+            required
+          />
+          <textarea
+            id="noteContent"
+            placeholder="Write your note here..."
+            maxlength="5000"
+            rows="15"
+            required
+          ></textarea>
+          <div class="editor-footer">
+            <span id="charCount" class="char-count">0 / 5000</span>
+          </div>
+        </fieldset>
+      </form>
+    </main>
+  </div>
+
+  <!-- NOTE VIEWER CONTAINER -->
+  <div id="viewerContainer" class="page hidden">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <a href="#" onclick="showDashboard(event)">← Back to Notes</a>
+      </div>
+      <div class="nav-actions">
+        <button onclick="showEditNoteForm()" class="btn-primary">Edit</button>
+        <button onclick="deleteNote()" class="btn-danger">Delete</button>
+      </div>
+    </nav>
+
+    <main class="viewer">
+      <article>
+        <h1 id="viewTitle"></h1>
+        <p class="meta" id="viewMeta"></p>
+        <div id="viewContent" class="note-content"></div>
+      </article>
+    </main>
+  </div>
+
+  <!-- Loading & Toast Messages -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+</body>
+</html>
