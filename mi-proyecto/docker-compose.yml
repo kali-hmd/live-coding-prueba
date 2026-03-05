@@ -1,18 +1,35 @@
-services:
-  # Servicio del Backend (Node.js, Python, PHP...)
-  api:
-    build: ./backend
-    ports:
-      - "3000:3000"  # Mapea el puerto 3000 del contenedor al 3000 de tu PC
-    volumes:
-      - ./backend:/app # Sincroniza tu código para ver cambios en vivo
-    environment:
-      - NODE_ENV=production
+version: '3.8'
 
-  # Servicio del Frontend (Servidor web sencillo)
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: notes_api
+    ports:
+      - "5000:5000"
+    environment:
+      - JWT_SECRET=your_super_secret_key_change_in_prod
+      - DB_PATH=/app/data/notes.db
+      - PORT=5000
+      - FLASK_ENV=development
+    volumes:
+      - ./backend/data:/app/data
+    networks:
+      - notes-network
+
   web:
     image: nginx:alpine
+    container_name: notes_web
     ports:
-      - "8080:80"    # Entrarás a tu app desde http://localhost:8080
+      - "3000:80"
     volumes:
-      - ./frontend:/usr/share/nginx/html # Sirve tus archivos HTML/JS
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - api
+    networks:
+      - notes-network
+
+networks:
+  notes-network:
+    driver: bridge
